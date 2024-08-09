@@ -1,0 +1,31 @@
+function sendEmail() {
+const sheetName = 'คนไม่ผ่านEn' 
+const sh  = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1QCAASZPrDGoa7kx_bkU-sUbtWR9SIL3w2yqe-hkcMmw/edit?gid=1673031207#gid=1673031207').getSheetByName(sheetName);  
+  const studentid = 'H'
+  const emailUser = 'C';
+  const fullnameUser = 'E';
+  const roles = 'L';
+  const lastRow = sh.getLastRow();
+ 
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sh.getRange(emailUser + i).getValue().toString();
+    const fullname = sh.getRange(fullnameUser + i).getValue().toString();
+    const role = sh.getRange(roles + i).getValue().toString();
+    const stdid = sh.getRange(studentid+i).getValue().toString();
+    const subject = "Announcement of STAFF application results in the SIT ORIGIN";
+    const message = `  Dear  ${stdid} ${fullname}  
+    <p style="padding-left: 27px;">
+    First, we would like to thank all applicants for your interest in becoming part of the <br> SIT Origin event. 
+    <br><br>
+    After carefully reviewing the applications and getting to know everyone better, we were very impressed. However, due to a higher than expected number of applicants for the ${role} , <b>we regret to inform you that we are unable to offer you a position in the ${role} at this time.</b>
+    <br><br>
+    We appreciate your interest and effort in applying for this event and hope to see you again in future opportunities.<br></p>
+
+    Respectfully &nbsp; , The SIT Origin Team<br><br>   
+    —-----------------------------------------------------------------------------------------------`;
+
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
