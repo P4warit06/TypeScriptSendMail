@@ -1,0 +1,39 @@
+function sendEmail() {
+const sheetName = 'เก็บตก'
+const sh  = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1QCAASZPrDGoa7kx_bkU-sUbtWR9SIL3w2yqe-hkcMmw/edit?gid=1057298853#gid=1057298853').getSheetByName(sheetName);
+  const studentid = 'H'
+  const emailUser = 'C';
+  const fullnameUser = 'E';
+  const roles = 'L';
+  const lastRow = sh.getLastRow();
+ 
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sh.getRange(emailUser + i).getValue().toString();
+    const fullname = sh.getRange(fullnameUser + i).getValue().toString();
+    const role = sh.getRange(roles + i).getValue().toString();
+    const stdid = sh.getRange(studentid+i).getValue().toString();
+    const subject = "Announcement of STAFF application results in the SIT ORIGIN UpdateLink Discord ";
+    const message = `  Dear  ${stdid} ${fullname}  
+    <p style="padding-left: 27px;">
+    First, we would like to thank all applicants for your interest in becoming part of the <br> SIT Origin event. 
+  <br><br>
+    After careful consideration of the applications on 27 - 28 June 2024, we are pleased to inform you that <b>you have been selected </b>and assigned to the <br> <b style="background-color: yellow; color: black;">${role}</b><br>  
+    in the SIT Origin.<br><br>
+   
+
+    Please join our Discord group using the following link : <a href="https://discord.gg/hBu8w3jj">https://discord.gg/hBu8w3jj</a><br><br>
+    We would like to disturb you when entering Discord and rename yourself to the nickname of the Team you belong to.<br>
+    e.g. Carol_Activity 
+    <br><br>
+
+    If you have any further questions, feel free to contact us on IG:  <a href="https://www.instagram.com/sitorigin.kmutt">sitorigin.kmutt</a><br><br></p>
+
+    Respectfully &nbsp; , The SIT Origin Team<br><br>
+
+    —-----------------------------------------------------------------------------------------------`;
+
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
