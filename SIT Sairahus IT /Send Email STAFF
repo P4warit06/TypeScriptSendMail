@@ -1,0 +1,37 @@
+function sendEmailPass() {
+  const sheetName = 'ผ่าน'
+  const sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1bmUxH8wmHwtYz-AOa0DBCB6DiXwDtaV6uMqY2W8dbd0/edit?resourcekey=&gid=444721592#gid=444721592').getSheetByName(sheetName);
+
+
+  const colEmail = "A"
+  const colName = "C"
+  const colId = "B"
+  const colRoom = "E"
+  const lastRow = sheet.getLastRow() 
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(colEmail + i).getValue().toString()
+    const name = sheet.getRange(colName + i).getValue().toString()
+    const id = sheet.getRange(colId + i).getValue().toString()
+    const room = sheet.getRange(colRoom + i).getValue().toString()
+
+    const subject = "IT#30 and The Code of Under World 's Treasure | Welcome to our team"
+    const message = ` เรียน ${name} ${id}
+
+  ขอแสดงความยินดีด้วย คุณได้ผ่านการคัดเลือกและได้ทำงานกับเราในฝ่าย ${room}
+
+  โดยสามารถติดตามรายละเอียดเพิ่มเติมและการนัดหมายต่าง ๆ ของท่านผ่านแพลตฟอร์ม Discord เซิร์ฟเวอร์ " IT STAFF UWT "
+
+  กรุณาเข้า Discord  ที่ช่องด้านล่างของ Email เพื่อเป็นการยืนยันสิทธิ์ และ ขอให้เปลี่ยนชื่อโดยการตั้งชื่อเป็นชื่อเล่น+ตำแหน่งของตัวเอง  (e.g. เบสท์_HR)
+
+  Discord: https://discord.gg/thEJwt7vF7
+
+---------------------------------------------------------------------
+
+  ** หมายเหตุ ไม่อนุญาตให้ส่งต่อ Link นี้ให้กับบุคคลภายนอก
+
+`
+
+    GmailApp.sendEmail(email, subject, message)
+  }
+}
