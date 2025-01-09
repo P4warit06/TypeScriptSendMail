@@ -1,0 +1,41 @@
+function sendEmailHelloWorld() {
+  const sheetName = 'Sheet1';
+  const sheetUrl = 'https://docs.google.com/spreadsheets/d/1mGFVxo89XrDclYvjE7Pr-Feov9EwtN22AgeFoBBeiMc/edit?gid=0#gid=0';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet with name "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 2).getValue().toString(); // Column B
+    const name = sheet.getRange(i, 6).getValue().toString(); // Column F
+    const id = sheet.getRange(i, 4).getValue().toString(); // Column D
+    const role = sheet.getRange(i, 10).getValue().toString(); // Column J
+    const subject = "SIT Hello World 2025  | Welcome to Hello World";
+    const message = ` เรียนคุณ  ${id} ที่เคารพ
+    <p style="padding-left: 22px;">ก่อนอื่นเลยทางทีมงานขอขอบคุณผู้สมัครทุกท่านที่สนใจในการสมัครเข้าร่วมมาเป็นส่วนหนึ่งของโครงการ SIT Hello World 2025
+    หลังจากทางทีมงานได้พิจารณาอย่างถี่ถ้วนจากใบสมัคร เมื่อวันที่ 8-9 ธันวาคม 2567 ที่ผ่านมา <br>
+    ทางเราขอแจ้งให้ทราบว่า <b>ท่านผ่านการคัดเลือก</b> และได้อยู่ในตำแหน่ง <b style="background-color: yellow; color: black;">${role}</b><br>
+    แบบฟอร์มยืนยันการเข้าร่วมโครงการ : <a href="https://forms.gle/SouLDMJ3uX8qd1RW6">https://forms.gle/SouLDMJ3uX8qd1RW6</a><br><br>
+    ลิงก์สำหรับเข้ากลุ่ม Discord เพื่อพูดคุยระหว่างโครงการ: <a href="https://discord.gg/u4uGsss9TQ">https://discord.gg/u4uGsss9TQ</a><br><br>
+
+
+    ทางเราขอความรบกวนท่านเมื่อเข้า Discord มาแล้ว  Rename ตัวเองเป็น ชื่อเล่นTrackที่ตนเองสมัคร<br>
+    (e.g. เฟิร์ส_FrontEnd)
+    <br><br>
+    หากมีข้อสงสัยเพิ่มเติม สามารถสอบถามได้ที่ IG : sithelloworld <br></p> 
+    
+    ขอแสดงความนับถือ<br>
+    ทีมงาน SIT Hello World 2025 <br><br>
+    <hr>
+    ** หมายเหตุ: ไม่อนุญาตให้ส่งต่อ Link นี้ให้บุคคลภายนอกนะครับ ขอบคุณครับ`;
+    
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
