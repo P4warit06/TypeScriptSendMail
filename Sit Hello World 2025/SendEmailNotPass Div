@@ -1,0 +1,46 @@
+function sendEmailNotPassHelloWorld() {
+  const sheetName = 'SheetName';
+  const sheetUrl = 'URL link';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet with name "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 1).getValue().toString(); // Column A
+    const name = sheet.getRange(i, 4).getValue().toString(); // Column D
+    const id = sheet.getRange(i, 2).getValue().toString(); // Column B
+    const role = sheet.getRange(i, 8).getValue().toString(); // Column H
+    const subject = "SIT Hello World 2025  | Welcome to Hello World";
+    const message = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; padding: 20px; border-radius: 8px; width: 80%; margin: 0 auto; box-sizing: border-box;">
+      <h2 style="color: #0073e6; text-align: center; font-size: 24px;">เรียนคุณ <strong>${id} ${name}</strong> ที่เคารพ</h2>
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        ก่อนอื่นเลยทางทีมงานขอขอบคุณผู้สมัครทุกท่านที่สนใจในการสมัครเข้าร่วมมาเป็นส่วนหนึ่งของโครงการ <strong>SIT Hello World 2025</strong>.<br><br>
+        หลังจากที่ทางทีมงานได้พิจารณาอย่างถี่ถ้วนจากใบสมัครและทำความรู้จักกับทุกคนมากขึ้น พวกเรารู้สึกประทับใจมาก แต่เนื่องจากมีผู้สมัครใน <strong>${role}</strong> เข้ามาเยอะกว่าจำนวนที่คาดไว้
+      </p>  
+      <p style="font-size: 16px; margin-bottom: 20px; font-weight: bold; color: #d9534f;">
+        ทางทีมงานเสียใจที่ <span style="color: #d9534f; font-weight: bold;">ไม่สามารถตอบรับคุณเข้ามาเป็นหนึ่งใน ${role} ได้ในขณะนี้</span>
+      </p>
+      <p style="font-size: 16px; margin-bottom: 30px;">
+        ทางเราขอขอบคุณผู้สมัครสำหรับความสนใจและความพยายามที่ได้แสดงออกมาในการสมัครเข้าร่วมโครงการครั้งนี้และหวังเป็นอย่างยิ่งว่าจะได้พบกับท่านอีกในโอกาสต่อไป
+      </p>
+      <p style="font-size: 16px; margin-bottom: 20px; font-style: italic;">
+        ขอแสดงความนับถือ,<br>
+        ทีมงาน SIT Hello World 2025
+      </p>
+      <hr style="border: 1px solid #ddd; margin: 30px 0;">
+      <p style="font-size: 14px; color: #666; text-align: center;">
+        <strong>หมายเหตุ:</strong> ไม่อนุญาตให้ส่งต่อ Link นี้ให้บุคคลภายนอกนะครับ ขอบคุณครับ
+      </p>
+    </div>`;
+    
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
