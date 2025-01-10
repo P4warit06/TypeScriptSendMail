@@ -1,0 +1,55 @@
+function sendEmailHelloWorld() {
+  const sheetName = 'SheetName';
+  const sheetUrl = 'URL LINK';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet with name "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 1).getValue().toString(); // Column A
+    const name = sheet.getRange(i, 4).getValue().toString(); // Column D
+    const id = sheet.getRange(i, 2).getValue().toString(); // Column B
+    const role = sheet.getRange(i, 8).getValue().toString(); // Column H
+    const subject = "SIT Hello World 2025  | Welcome to Hello World";
+    const message = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; padding: 20px; border-radius: 8px; width: 80%; margin: 0 auto; box-sizing: border-box;">
+      <h2 style="color: #0073e6; text-align: center; font-size: 24px;">เรียนคุณ <strong>${id} ${name}</strong> ที่เคารพ</h2>
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        ก่อนอื่นเลยทางทีมงานขอขอบคุณผู้สมัครทุกท่านที่สนใจในการสมัครเข้าร่วมมาเป็นส่วนหนึ่งของโครงการ <strong>SIT Hello World 2025</strong>.<br><br>
+        หลังจากทางทีมงานได้พิจารณาอย่างถี่ถ้วนจากใบสมัครเมื่อวันที่ 8-9 ธันวาคม 2567 ที่ผ่านมา ทางเราขอแจ้งให้ทราบว่า <strong>ท่านผ่านการคัดเลือก</strong> และได้อยู่ในตำแหน่ง <span style="background-color: yellow; color: black; padding: 0 4px; font-weight: bold;">${role}</span><br><br>
+      </p>
+      <p style="font-size: 16px; margin-left: 22px;">
+        <strong>แบบฟอร์มยืนยันการเข้าร่วมโครงการ:</strong> 
+        <a href="https://forms.gle/SouLDMJ3uX8qd1RW6" target="_blank" style="color: #1a73e8;">https://forms.gle/SouLDMJ3uX8qd1RW6</a><br><br>
+        <strong>ลิงก์สำหรับเข้ากลุ่ม Discord เพื่อพูดคุยระหว่างโครงการ:</strong> 
+        <a href="https://discord.gg/u4uGsss9TQ" target="_blank" style="color: #1a73e8;">https://discord.gg/u4uGsss9TQ</a><br><br>
+      </p>
+
+      <p style="color: #555;">
+        <u><strong>หมายเหตุ:</strong></u> เนื่องจากมีผู้สนใจสมัครเข้ามาเป็นจำนวนมาก จึงมีการเกลี่ยผู้เข้าร่วม ผู้สมัครอาจจะไม่ได้เข้าร่วมในสายที่ตนเองสมัคร.<br>
+        ทางเราขอความรบกวนท่านเมื่อเข้า Discord มาแล้ว <strong>Rename ตัวเองเป็น ชื่อเล่น_Trackที่ตนเองได้อยู่</strong> (e.g. เฟิร์ส_FrontEnd)<br><br>
+        หากมีข้อสงสัยเพิ่มเติม สามารถสอบถามได้ที่ IG: <strong>sithelloworld</strong><br><br>
+      </p>
+
+      <p style="font-size: 16px; margin-bottom: 20px; font-style: italic;">
+        ขอแสดงความนับถือ,<br>
+        ทีมงาน SIT Hello World 2025
+      </p>
+
+      <hr style="border: 1px solid #ddd; margin: 30px 0;">
+
+      <p style="font-size: 14px; color: #666; text-align: center;">
+        <strong>หมายเหตุ:</strong> ไม่อนุญาตให้ส่งต่อ Link นี้ให้บุคคลภายนอกนะครับ ขอบคุณครับ
+      </p>
+    </div>`;
+    
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
