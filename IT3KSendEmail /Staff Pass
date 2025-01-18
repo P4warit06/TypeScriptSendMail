@@ -1,0 +1,52 @@
+function sendEmailIT3Kpass() {
+  const sheetName = 'SheetName';
+  const sheetUrl = 'Link  URL';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet with name "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 2).getValue().toString(); // Column B
+    const name = sheet.getRange(i, 6).getValue().toString(); // Column F
+    const nameTitle = sheet.getRange(i, 5).getValue().toString(); // Column E
+    const id = sheet.getRange(i, 4).getValue().toString(); // Column D
+    const role = sheet.getRange(i, 11).getValue().toString(); // Column K
+    const subject = "IT 3K #19 | Welcome to IT3K Team";
+    const message = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.8; color: #333; background-color: #f4f8fc; padding: 30px; border-radius: 12px; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <h2 style="color: #0056b3; text-align: center; font-size: 28px; margin-bottom: 10px;">เรียน <strong>${id}<br>${nameTitle}${name}</strong> ที่เคารพ</h2>
+      <p style="font-size: 16px; margin: 20px 0;">
+        ขอขอบคุณผู้สมัครทุกท่านที่สนใจในการสมัครเข้าร่วมมาเป็นส่วนหนึ่งของกิจกรรม <strong>IT3K #19</strong>.<br>
+        หลังจากพิจารณาอย่างถี่ถ้วน ทางเราขอแจ้งให้ทราบว่า <strong>ท่านผ่านการคัดเลือก</strong> และได้รับตำแหน่ง
+      </p>
+      <div style="text-align: center; margin: 20px 0;">
+        <span style="display: inline-block; background-color: #ffeb3b; color: #333; font-weight: bold; padding: 8px 20px; font-size: 24px; border-radius: 6px; border: 2px solid #ffc107;">${role}</span>
+      </div>
+      <p style="font-size: 16px; margin: 20px 0;">
+        <strong>ลิงก์สำหรับเข้ากลุ่ม Discord เพื่อการสื่อสารระหว่างทีมงาน:</strong><br>
+        <a href="https://discord.gg/nUucDJXksq" target="_blank" style="color: #1a73e8; font-size: 16px;">https://discord.gg/nUucDJXksq</a>
+      </p>
+      <p style="color: #555; font-size: 14px; background-color: #e8f4f8; padding: 10px 15px; border-radius: 8px; margin: 20px 0;">
+        <strong>หมายเหตุ:</strong> เนื่องจากมีผู้สมัครจำนวนมาก ผู้สมัครอาจไม่ได้รับตำแหน่งที่ตนเองสมัคร<br>
+        โปรด Rename ตัวเองใน Discord เป็น <span style="color: blue;">"ชื่อเล่น_ตำแหน่งที่ได้รับ"</span> (ตัวอย่าง: เฟิร์ส_สวัสดิการ)
+      </p>
+      <p style="font-size: 16px; font-style: italic;">
+        ขอแสดงความนับถือ,<br>
+        ทีมงาน IT3K #19
+      </p>
+      <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+      <p style="font-size: 14px; color: #777; text-align: center;">
+        <strong>หมายเหตุ:</strong> โปรดอย่าส่งต่อ Link นี้ให้บุคคลภายนอก
+      </p>
+    </div>`;
+
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
