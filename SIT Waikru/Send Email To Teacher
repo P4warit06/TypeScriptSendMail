@@ -1,0 +1,41 @@
+function sendEmail() {
+  const sheetName = 'SheetName'
+  const sheetURL = "LINK URL"
+  const sheet = SpreadsheetApp.openByUrl(sheetURL).getSheetByName(sheetName);
+
+  const colEmail = "B"
+  const imageId = "1meTzlE7pXtpMl-HkooTFSKTW1Cxkhx4K"
+  const pdf = DriveApp.getFileById(imageId)
+  const lastRow = sheet.getLastRow()
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(colEmail + i).getValue().toString()
+    const subject = "เรียนเชิญคณาจารย์เข้าร่วมพิธีไหว้ครูคณะเทคโนโลยีสารสนเทศ";
+    const message = `เรียน คณาจารย์คณะเทคโนโลยีสารสนเทศทุกท่าน      
+    <p style="padding-left: 22px;">ด้วยมหาวิทยาลัย ฯ กำหนดให้วันพฤหัสบดีที่ 15 สิงหาคม 2567  เป็นวันไหว้ครู มจธ. 
+    และประกาศงดการเรียน การสอนเพื่อจัดพิธีไหว้ครู<br>
+
+  ในโอกาสนี้สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ มีความประสงค์ที่จะจัดพิธีไหว้ครู SIT ประจำปีการศึกษา 2567 <br>
+  โดยมีวัตถุประสงค์ เพื่อระลึกถึงพระคุณอันดีงามและแสดงความเคารพต่อครูอาจารย์ สร้างสานสัมพันธ์ระหว่างอาจารย์และนักศึกษา<br> และเพื่อส่งเสริมให้นักศึกษามีคุณธรรมจริยธรรมและค่านิยมที่ดีงาม<br><br>
+
+  จึงขอเรียนเชิญคณาจารย์ทุกท่านเข้าร่วมพิธีไหว้ครู ในวันที่ 15 สิงหาคม 2567 
+  <br>ตั้งแต่เวลา 13.30-15.30 น. ณ ห้องTraining 12/1-2 อาคารการเรียนรู้พหุวิทยาการ(LX)
+  โดยได้แนบรายละเอียดกำหนดการในพิธีมาด้วยแล้ว<br><br>
+
+  ท่านใดประสงค์เข้าร่วมโปรดแจ้งกลับที่แบบฟอร์ม: <a href="https://forms.gle/csVSt58VKxaXMVB3A">https://forms.gle/csVSt58VKxaXMVB3A</a><br>
+  ภายในวันที่ 13 สิงหาคม 2567<br></p>
+
+  ขอแสดงความนับถือ<br>
+  สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ<br><br>
+
+—-----------------------------------------------------------------------------------------------`;
+
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      // body: message,
+      htmlBody: message,
+      attachments: [pdf]
+    })
+  }
+}
