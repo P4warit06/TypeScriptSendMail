@@ -1,1 +1,88 @@
-Log
+function sendEmailNewSamosit() {
+  const sheetName = 'Sheet1';
+  const sheetUrl = 'https://docs.google.com/spreadsheets/d/1R6paoqfHd0d0B0wy1oPwz85tc40jJHRMpS_TUeNREDE/edit?resourcekey=&gid=146607728#gid=146607728';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+  const subject = "แจ้งสิทธิ์เข้าสัมภาษณ์เพื่อเข้าร่วมสโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ ปีการศึกษา 2568";
+  const interviewLink = "https://docs.google.com/spreadsheets/d/1Vgj5Shuvw1ARV1fIXK2jYSozq-ZlYY6dx-c7fItUGsY/edit";
+  const deadline = "วันที่ 7 พฤษภาคม 2568";
+  const interviewDate = "วันที่ 8 พฤษภาคม 2568 เวลา 16:30 น. เป็นต้นไป";
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 2).getValue().toString();  // Column B
+    const name = sheet.getRange(i, 7).getValue().toString();   // Column G
+
+    const message = `
+      <div style="
+        font-family: 'Arial', sans-serif;
+        line-height: 1.8;
+        color: #333;
+        background-color: #f4f8fc;
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      ">
+        <h2 style="color: #0056b3; text-align: center; font-size: 28px; margin-bottom: 10px;">
+          เรียนคุณ <strong>${name}</strong>,
+        </h2>
+
+        <p style="font-size: 16px; margin: 20px 0;">
+          สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ มีความยินดีที่จะแจ้งให้ท่านทราบว่า 
+          ท่านได้รับสิทธิ์ในการเข้าสัมภาษณ์เพื่อคัดเลือกเป็นสมาชิกสโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ ประจำปีการศึกษา 2568
+        </p>
+
+        <p>
+          กรุณาดำเนินการเลือกช่วงเวลาในการสัมภาษณ์ภายใน <strong>${deadline}</strong> ผ่านทางลิงก์ด้านล่างนี้:
+        </p>
+
+        <p style="font-size: 16px; margin: 20px 0;">
+          <strong>ลิงก์สำหรับจองวันเวลาสัมภาษณ์:</strong><br>
+          <a href="${interviewLink}" target="_blank" style="color: #1a73e8; font-size: 16px;">
+            ${interviewLink}
+          </a>
+        </p>
+
+        <div style="
+          color: #555;
+          font-size: 14px;
+          background-color: #e8f4f8;
+          padding: 10px 15px;
+          border-radius: 8px;
+          margin: 20px 0;
+        ">
+          <strong>หมายเหตุ:</strong><br>
+          วันและเวลาในการสัมภาษณ์:<br>
+          ${interviewDate}
+        </div>
+
+        <p>
+          หากท่านมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถติดต่อทีมงานได้ที่ 
+          <strong>IG: samosit.kmutt</strong>
+        </p>
+
+        <p style="font-size: 16px; font-style: italic;">
+          ขอแสดงความนับถือ,<br>
+          ฝ่ายบุคคล<br>
+          สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ 
+        </p>
+
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+
+        <p style="font-size: 14px; color: #777; text-align: center;">
+          <strong>หมายเหตุ:</strong> โปรดอย่าส่งต่อ Link นี้ให้บุคคลภายนอก
+        </p>
+      </div>`;
+
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
