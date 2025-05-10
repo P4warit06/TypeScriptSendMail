@@ -32,7 +32,7 @@ function sendEmailNotpassSamosit() {
         </h2>
 
         <p style="font-size: 16px; margin: 20px 0;">
-          สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ ขอแสดงความยินดีอย่างยิ่งที่คุณ ได้รับการคัดเลือกเป็นสมาชิกสโมสรนักศึกษา ประจำปีการศึกษา 2568
+          Free
         </p>
 
         <p style="font-size: 16px; margin: 20px 0;">
@@ -46,15 +46,8 @@ function sendEmailNotpassSamosit() {
         </p>
 
         <p style="font-size: 16px; font-style: italic;">
-          ขอแสดงความนับถือ,<br>
-          ฝ่ายบุคคล<br>
+          ด้วยความเคารพ,<br>
           สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ 
-        </p>
-
-        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
-
-        <p style="font-size: 14px; color: #777; text-align: center;">
-          <strong>หมายเหตุ:</strong> โปรดอย่าส่งต่อ Link นี้ให้บุคคลภายนอก
         </p>
       </div>`;
 
