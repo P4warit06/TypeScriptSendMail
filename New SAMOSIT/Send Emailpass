@@ -1,0 +1,82 @@
+function sendEmailPassSamosit() {
+  const sheetName = 'Name';
+  const sheetUrl = 'URL LINK';
+  const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName(sheetName);
+
+  if (!sheet) {
+    console.error(`Sheet "${sheetName}" not found.`);
+    return;
+  }
+
+  const lastRow = sheet.getLastRow();
+  const subject = "ขอแสดงความยินดีที่คุณได้รับคัดเลือกเป็นสมาชิกสโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ ปีการศึกษา 2568";
+  const discordLink = "https://discord.gg/4N8utDHZ";
+
+  for (let i = 2; i <= lastRow; i++) {
+    const email = sheet.getRange(i, 2).getValue().toString();  // Column B
+    const name = sheet.getRange(i, 7).getValue().toString();   // Column G
+
+    const message = `
+      <div style="
+        font-family: 'Arial', sans-serif;
+        line-height: 1.8;
+        color: #333;
+        background-color: #f4f8fc;
+        padding: 30px;
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      ">
+        <h2 style="color: #0056b3; text-align: center; font-size: 28px; margin-bottom: 10px;">
+          เรียน คุณ <strong>${name}</strong>
+        </h2>
+
+        <p style="font-size: 16px; margin: 20px 0;">
+          สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ ขอแสดงความยินดีอย่างยิ่งที่คุณ ได้รับการคัดเลือกเป็นสมาชิกสโมสรนักศึกษา ประจำปีการศึกษา 2568
+        </p>
+
+        <p style="font-size: 16px; margin: 20px 0;">
+          เรารู้สึกยินดีเป็นอย่างยิ่งที่ได้ต้อนรับคุณเข้าสู่ทีม และเชื่อมั่นว่าคุณจะมีบทบาทสำคัญในการขับเคลื่อนทั้งกิจกรรมและการพัฒนาคณะเทคโนโลยีสารสนเทศให้ก้าวหน้ายิ่งขึ้นในปีการศึกษานี้
+          เพื่อให้คุณสามารถติดต่อสื่อสารได้อย่างสะดวกรวดเร็ว กรุณาเข้าร่วมเซิร์ฟเวอร์ Discord ของสโมสรผ่านลิงก์ด้านล่างนี้:
+        </p>
+
+        <p style="font-size: 16px; margin: 20px 0;">
+          <strong>ลิงก์ดิสคอร์ด: ${discordLink} </strong><br>
+          
+        </p>
+
+        <div style="
+          color: #555;
+          font-size: 14px;
+          background-color: #e8f4f8;
+          padding: 10px 15px;
+          border-radius: 8px;
+          margin: 20px 0;
+        ">
+         นอกจากนี้ กรุณารอติดตามประกาศเกี่ยวกับการปฐมนิเทศสมาชิกใหม่และการประชุมครั้งแรก ซึ่งจะแจ้งให้ทราบใน Discord
+        </div>
+
+        <p>
+          หากท่านมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถติดต่อทีมงานได้ที่ 
+          <strong>IG: samosit.kmutt</strong>
+        </p>
+
+        <p style="font-size: 16px; font-style: italic;">
+          ขอแสดงความนับถือ,<br>
+          ฝ่ายบุคคล<br>
+          สโมสรนักศึกษาคณะเทคโนโลยีสารสนเทศ 
+        </p>
+
+        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+
+        <p style="font-size: 14px; color: #777; text-align: center;">
+          <strong>หมายเหตุ:</strong> โปรดอย่าส่งต่อ Link นี้ให้บุคคลภายนอก
+        </p>
+      </div>`;
+
+    GmailApp.sendEmail(email, subject, '', {
+      htmlBody: message
+    });
+  }
+}
